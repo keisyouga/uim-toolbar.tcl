@@ -49,6 +49,14 @@ proc read_cb {chan} {
 	global top1 frame1
 	set data [read $chan]
 
+	# check eof flag
+	if {[eof $chan]} {
+		puts "$::argv0 : eof $chan"
+		close $chan
+		# try to watch uim-helper again
+		watch_uim_helper
+	}
+
 	################################################################
 	# parse per line
 	#   prop_list_update: delete all menus
